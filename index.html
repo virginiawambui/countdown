@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer with User Input</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            margin-top: -20PX;
+            background-image: url(x.jpg);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        #inputSection {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            width: 50px;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+
+        }
+        label{
+            color:antiquewhite;
+        }
+    </style>
+</head>
+<body>
+
+    <h1  style ="font-size: 50px;   color: antiquewhite;">Countdown Timer</h1>
+    <div style ="font-size: 100px;   color: antiquewhite;" id="timer">00:00:00</div>
+  
+    <div style ="font-size: 50px  ;   color: antiquewhite; padding-bottom: 200px;" id="timer">Hours Mins  Sec</div>
+    <div style="padding-bottom: 20px;" id="inputSection">
+       
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" min="0" value="0">
+
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes" min="0" value="5">
+
+        <label for="seconds">Seconds:</label>
+        <input type="number" id="seconds" min="0" value="0">
+
+     
+
+    </div>
+         
+    <div>        <button onclick="startCustomTimer()">Start Timer</button></div>
+    <script>
+        let targetTime;
+
+        function startCustomTimer() {
+            const hours = parseInt(document.getElementById('hours').value, 10);
+            
+            const minutes = parseInt(document.getElementById('minutes').value, 10);
+            const seconds = parseInt(document.getElementById('seconds').value, 10);
+
+            // Calculate target time in milliseconds
+            targetTime = new Date().getTime() + hours * 3600000 + minutes * 60000 + seconds * 1000;
+
+            // Update the countdown every 1 second
+            setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            // Get the current date and time
+            const currentDate = new Date().getTime();
+
+            // Calculate the remaining time in milliseconds
+            const remainingTime = targetTime - currentDate;
+
+            if (remainingTime > 0) {
+                // Convert remaining time to hours, minutes, and seconds
+                const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                // Display the remaining time in the "timer" div
+                document.getElementById('timer').textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+            } else {
+                // If the countdown is complete, display a message
+                document.getElementById('timer').textContent = 'Countdown Complete!';
+            }
+        }
+
+        function formatTime(time) {
+            // Add leading zero if the time is less than 10
+            return time < 10 ? `0${time}` : time;
+        }
+    </script>
+
+</body>
+</html>
